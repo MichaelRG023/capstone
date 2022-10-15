@@ -1,8 +1,9 @@
 
-import React,{useState} from "react";
+
+import React,{useEffect, useState} from "react";
 import './SneakerCard.css'
 
-function SneakerCard({sneaker,currentUser, handleComments,sendComments}){
+function SneakerCard({sneaker,currentUser, handleComments,sendComments, handleDelete}){
 
   const [showForm, setShowForm] = useState(false);
   const [showComments, setShowComments] = useState("")
@@ -11,7 +12,7 @@ function SneakerCard({sneaker,currentUser, handleComments,sendComments}){
   const handleOnChange=(e)=>{
       setShowComments(e.target.value)
   }
-  
+   
     //stop data from looping, very annoying when console.log()
   const addComment =(e)=>{
     e.preventDefault()
@@ -32,21 +33,15 @@ function SneakerCard({sneaker,currentUser, handleComments,sendComments}){
     })
     
   }
+  //handling new comments 
   const handleTheComments=(newcomment)=>{
     setComment([...comment, newcomment])
   }
   const commentArray = comment.map(c => <p> {c}</p>)
 
-          // const handleRemove=()=>{
-          //   fetch('/comments',{
-          //     method: "DELETE"
-          //   })
-          //   .then(res =>res.json())
-          //   .then(comment =>{
+         
 
-          //   })
-          // }
-
+  
             // add the comment button
           const showAddCommentButton = () => {
             return (
@@ -56,8 +51,10 @@ function SneakerCard({sneaker,currentUser, handleComments,sendComments}){
             )}
 
 
+
+            
             //add the commentForm
-          const showCommentForm =()=>{
+            const showCommentForm =()=>{
             return(
               <div>
               {showForm?
@@ -70,13 +67,16 @@ function SneakerCard({sneaker,currentUser, handleComments,sendComments}){
               </div>
               )}
 
-  
-
+               
     return(
       <>
         <div className="Card">
-          <h1> Sku:{sneaker.sku}</h1>
-          <h3> Links: {sneaker.links.flightClub}</h3>
+        <h1> Sku:{sneaker.sku}</h1>
+          <a href={sneaker.links.flightClub}> Link To FlightClub</a>
+          <br></br>
+          <a href={sneaker.links.stockX}> Link To stockX</a>
+          <br></br>
+          <a href={sneaker.links.goat}>Link to Goat</a>
           <h3> Brand: {sneaker.brand}</h3>
           <h3>  Name: {sneaker.name}</h3>
           <h3>Colorway: {sneaker.colorway}</h3>
@@ -93,8 +93,13 @@ function SneakerCard({sneaker,currentUser, handleComments,sendComments}){
               <div className="comments">
                 <h3 className="comments-title">Comments</h3>
                 {commentArray}
+                <button onChange={""}>Delete Comment</button>
+              
               </div>
-            
+           
+                <br></br>
+                <br></br>
+                <br></br>
                 <div className="text-center">
                    {currentUser ? showCommentForm() : null}
                 </div>
@@ -103,6 +108,7 @@ function SneakerCard({sneaker,currentUser, handleComments,sendComments}){
                 
        
        </>
+          
   )
 }
 

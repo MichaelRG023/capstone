@@ -59,10 +59,12 @@ function Login({updateUser}){
                     <form onSubmit={handleLoginSubmit}> 
                     <input type="username"
                     onChange={handleChangeForUserToLogin}
+                    placeholder="username"
                     name="username"/>
     
                     <input type="password"
-                    onChange={handleChangeForUserToLogin} 
+                    onChange={handleChangeForUserToLogin}
+                    placeholder="password" 
                     name='password'/>
   
                  <button type="submit" value="Log in!" className="signup-button">
@@ -70,7 +72,7 @@ function Login({updateUser}){
                     </button>
                         </form>
                         <div id="alternativeLogin">
-                        <label>Or Sign In with</label>
+                      
                         </div>
                     </div>
                  </div>

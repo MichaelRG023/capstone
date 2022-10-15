@@ -14,7 +14,7 @@ function App() {
   //current logged in user state
   const [currentUser,setCurrentUser] = useState('');
   const [comments, setComments] = useState([]);
-console.log(comments[0])
+
   const updateUser =(user)=> setCurrentUser(user)
 
 // GET all sneakers from the API
@@ -33,7 +33,7 @@ console.log(comments[0])
       }
     })
   },[])
-  //GET comments
+  //GET all  comments
    useEffect(()=>{
    fetch('/comments')
   .then(res=>res.json())
@@ -53,24 +53,38 @@ console.log(comments[0])
         res.json().then(data => setErrors(data.error))
       }
      })
-
-      },[])
-
+   },[])
+     const [localSneakers,setLocalSneakers] = useState([])
+   useEffect(()=>{
+    fetch('/sneakers')
+    .then(res=>res.json())
+    .then(setLocalSneakers)
+   }, [])
+    
       const handleComments =(newComments)=>{
       setComments(comments =>[...comments,newComments])
       }
 
-      
-      
-        
+      const handleDelete=(commentToDelete, sneaker_id)=>{
+        const copyOfSneakers = [...localSneakers]
+        const sneaker_index = copyOfSneakers.findIndex((sneakerObj) => sneakerObj.id === sneaker_id)
+        copyOfSneakers[sneaker_index].comments = copyOfSneakers[sneaker_index].comments?.filter(comment => comment.id !== commentToDelete.id)
+        setLocalSneakers(copyOfSneakers)
+           }
     if(errors) return<h1>{errors} </h1>
 
   return(
     <div>
     <Navbar currentUser={currentUser} updateUser={updateUser}/>
-      <Routes> 
-        <Route  path='/home' element={<Home sneakers={sneakerData} currentUser={currentUser} handleComments={handleComments} sendComments={comments}/>}/>
+      <Routes>   
+        
         <Route path="/" element={<Login updateUser={updateUser}/>}/> 
+        <Route  path='/home' element={<Home sneakers={sneakerData} 
+        currentUser={currentUser} 
+        handleComments={handleComments} 
+        sendComments={comments} 
+        handleDelete={handleDelete}/>}/>
+      
        <Route path="/signup" element={<Signup updateUser={updateUser}/>}/>
       </Routes>
     
@@ -80,4 +94,4 @@ console.log(comments[0])
  
 }
 
-export default App;
+export default App

@@ -2,11 +2,11 @@
 import SneakerCard from "./SneakerCard"
 import React from 'react';
 
-function SneakerList({sneakers, currentUser, handleComments,sendComments}){
+function SneakerList({sneakers, currentUser, handleComments,sendComments,handleDelete}){
 
    
    
-
+ 
 
 const sneakerComponents = sneakers.results && sneakers.results.map(sneaker => {
    return <SneakerCard
@@ -14,12 +14,14 @@ const sneakerComponents = sneakers.results && sneakers.results.map(sneaker => {
     currentUser={currentUser}
     handleComments={handleComments}
     sendComments={sendComments}
+    handleDelete={handleDelete}
    key={sneaker.id}
     />
 })
 
 
 return(
+  
 <div className="components">
   {sneakerComponents}
 </div>
